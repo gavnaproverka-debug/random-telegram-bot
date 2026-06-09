@@ -1,15 +1,17 @@
 require('dotenv').config();
 const { Telegraf } = require('telegraf');
+const express = require('express'); // Добавляем express
 
 const BOT_TOKEN = process.env.BOT_TOKEN;
 
 if (!BOT_TOKEN) {
-    console.error('❌ ОШИБКА: Токен не найден!');
+    console.error('❌ ОШИБКА: Токен не найден! Создай файл .env с BOT_TOKEN=твой_токен');
     process.exit(1);
 }
 
 const bot = new Telegraf(BOT_TOKEN);
 
+// Команда /start для проверки
 bot.start((ctx) => {
     ctx.reply('✅ Бот работает! Инлайн-режим готов');
     console.log('Бот получил /start от', ctx.from.username);
@@ -53,4 +55,16 @@ bot.on('inline_query', async (ctx) => {
 });
 
 bot.launch();
-console.log('🚀 Бот запущен!');
+console.log('🚀 Бот запущен! Токен загружен из .env');
+
+// ===== ВЕБ-СЕРВЕР ДЛЯ RENDER (чтобы не падал) =====
+const app = express();
+const PORT = process.env.PORT || 10000;
+
+app.get('/', (req, res) => {
+    res.send('Бот работает!');
+});
+
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`🌐 Веб-сервер запущен на порту ${PORT}`);
+});
