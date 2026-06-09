@@ -1,20 +1,15 @@
-// Подключаем dotenv для работы с .env файлом
 require('dotenv').config();
-
 const { Telegraf } = require('telegraf');
 
-// Токен теперь берется из .env файла, а не из кода!
 const BOT_TOKEN = process.env.BOT_TOKEN;
 
-// Проверка: если токен не загрузился
 if (!BOT_TOKEN) {
-    console.error('❌ ОШИБКА: Токен не найден! Создай файл .env с BOT_TOKEN=твой_токен');
+    console.error('❌ ОШИБКА: Токен не найден!');
     process.exit(1);
 }
 
 const bot = new Telegraf(BOT_TOKEN);
 
-// Команда /start для проверки
 bot.start((ctx) => {
     ctx.reply('✅ Бот работает! Инлайн-режим готов');
     console.log('Бот получил /start от', ctx.from.username);
@@ -58,4 +53,4 @@ bot.on('inline_query', async (ctx) => {
 });
 
 bot.launch();
-console.log('🚀 Бот запущен! Токен загружен из .env');
+console.log('🚀 Бот запущен!');
