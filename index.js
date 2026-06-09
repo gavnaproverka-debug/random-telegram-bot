@@ -49,7 +49,7 @@ bot.on('inline_query', async (ctx) => {
         title: `🎲 ${randomNumber}`,
         description: `от ${min} до ${max}`,
         input_message_content: {
-            message_text: `🎲 Случайное число: ${randomNumber} (диапазон ${min}-${max})`
+            message_text: `📚 Билет : ${randomNumber}`
         }
     }];
     
